@@ -5,6 +5,8 @@
 - Supports up to protocol ?
 - Uses HTTP to bypass most firewalls
 
+## Tests are broken right now!! Need to make them run in the correct order / monolith test
+
 # Fancy words
 - **Server**: The host providing the data
 - **Client**: The host that will get the synced data
