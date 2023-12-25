@@ -5,7 +5,9 @@
 - Supports up to protocol ?
 - Uses HTTP to bypass most firewalls
 
-## Tests are broken right now!! Need to make them run in the correct order / monolith test
+## Ideas
+E.g., running an rsync if a 10m files hierarchy usually requires 10m synchronous stat calls. Using io-uring would make them asynchronous, but they could potentially be done more efficiently (e.g. convert file names to inodes in blocks of 20k, and then stat those 20k inodes in a batch).
+That would require e.g. the VFS layer to support batch operations. But the io-uring would actually allow that without a user space interface change.
 
 # Fancy words
 - **Server**: The host providing the data
