@@ -3,38 +3,36 @@ import os
 from fsync import patch
 
 class TestFSync(unittest.TestCase):
-   
-    @classmethod
-    def setUpClass(cls):
+    def setUp(self):
         with open("example/src.txt", "w") as src:
-            src.write("Initial content")
+            src.write("Hello")
         with open("example/dest.txt", "w") as dest:
             pass
-    
-    @classmethod
-    def tearDownClass(cls):
+
+    def tearDown(self):
+        # Files are reset after each test
         open("example/src.txt", "w").close()
         open("example/dest.txt", "w").close()
-
+    
     def test_initial_sync(self):
         # Test initial sync
         patch("example/src.txt", "example/dest.txt")
         with open("example/dest.txt", "r") as dest:
-            self.assertEqual(dest.read(), "Initial content")
+            self.assertEqual(dest.read(), "Hello")
 
     def test_incremental_update(self):
         # Test incremental update
         with open("example/src.txt", "a") as src:
-            src.write(" Additional content")
+            src.write(" world!")
         patch("example/src.txt", "example/dest.txt")
         with open("example/dest.txt", "r") as dest:
-            self.assertEqual(dest.read(), "Initial content Additional content")
+            self.assertEqual(dest.read(), "Hello world!")
 
     def test_no_change(self):
         # Test no change in source
         patch("example/src.txt", "example/dest.txt")
         with open("example/dest.txt", "r") as dest:
-            self.assertEqual(dest.read(), "Initial content")
+            self.assertEqual(dest.read(), "Hello")
         # Make sure dest.txt is not modified if src.txt hasn't changed
         dest_mod_time_before = os.path.getmtime("example/dest.txt")
         patch("example/src.txt", "example/dest.txt")
