@@ -41,7 +41,6 @@ def chunkify(file_name: str) -> RsyncLUT:
     """
     Returns a rsync lookup table generated from the file
     """
-    print("Chunkifying {}".format(file_name))
     table = RsyncLUT()
     with open(file_name, "rb") as file:
         while True:
@@ -85,7 +84,6 @@ def patch(src_file_name: str, dest_file_name: str):
     """
     Apply the deltas to the destination file. 
     """
-    print("Patching {} to {}".format(src_file_name, dest_file_name))
     table = chunkify(dest_file_name) # will be empty if dest_file_name does not exist
     with open(dest_file_name, "w") as outputf, open(src_file_name, "rb") as sourcef:
         for x in deltas(table, src_file_name):
